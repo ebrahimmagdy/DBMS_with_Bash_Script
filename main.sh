@@ -13,3 +13,5 @@ fi
 
 done
 
+./select_db.sh
+
