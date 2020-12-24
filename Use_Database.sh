@@ -1,4 +1,4 @@
-./is_DB_Exist.sh "data/$1"
+./Is_DB_Exist.sh "data/$1"
 if [ $? -eq 0 ]
 then
     exit 0

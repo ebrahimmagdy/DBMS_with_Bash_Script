@@ -1,7 +1,7 @@
 db_dir="data/$1/"
 db_meta_dir="meta/$1/"
 db_meta="${db_meta_dir}$1"
-./is_DB_Exist.sh $db_dir
+./Is_DB_Exist.sh $db_dir
     if [ $? -eq 0 ]
     then
             echo "Error database exist"
