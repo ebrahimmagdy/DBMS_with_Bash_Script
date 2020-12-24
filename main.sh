@@ -37,17 +37,13 @@ printf "> "
 
 read -a command
 
-echo ${command[0]}
-echo ${command[0]}
-
 if [ ${command[0]} = "exit" -o ${command[0]} = "Exit" ]
 then
 	echo "bye"
 	break
 elif [ ${command[0]} = "Create" -a ${command[1]} = "Database" ]
 then
-	create_DB ${command[2]}
-
+	./Create_Database.sh ${command[2]}
 fi
 
 done
