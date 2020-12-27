@@ -1,10 +1,11 @@
 echo "Welcome in your DBMS"
 
+Database="null"
+
 #main
 while [ true ]
 
 do
-Database="null"
 
 printf "> "  
 
@@ -24,6 +25,20 @@ then
         then
                 Database=${command[1]}
         fi       
+elif [ ${command[0]} = "Create" -a ${command[1]} = "Table" ]
+then
+        if [ $Database = "null" ]
+        then
+                echo "Error no database chosen!"
+                break
+        fi
+        is_Reserved ${command[2]}
+        if [ $? -eq 0 ]
+        then
+                echo "Error table name is a reserved word"
+                break
+        fi
+        ./Create_table.sh $Database ${command[2]}
 fi
 
 done
