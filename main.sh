@@ -32,7 +32,7 @@ then
                 echo "Error no database chosen!"
                 break
         fi
-        is_Reserved ${command[2]}
+        ./is_Reserved.sh ${command[2]}
         if [ $? -eq 0 ]
         then
                 echo "Error table name is a reserved word"

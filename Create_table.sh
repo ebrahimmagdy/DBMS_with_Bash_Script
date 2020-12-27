@@ -46,7 +46,6 @@ do
             error_fun
         fi
         echo "Done!"
-        echo $cols
         cat $meta_path | awk '/Beam/ {if (NR == 2) {print $cols} else if (NR == 1) {print $0} else {print $0}}'
         exit 0;
     fi
