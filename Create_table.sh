@@ -46,7 +46,11 @@ do
             error_fun
         fi
         echo "Done!"
-        cat $meta_path | awk '/Beam/ {if (NR == 2) {print $cols} else if (NR == 1) {print $0} else {print $0}}'
+        temp="$meta_path.tmp"
+        cat $meta_path > $temp
+        echo $cols
+        cat $temp | awk -v cols=$cols '{if (NR == 2) {print cols} else {print $0}}' > $meta_path
+        rm $temp
         exit 0;
     fi
     ./is_Reserved.sh ${command[0]}
@@ -65,5 +69,4 @@ do
     fi
     echo "${command[0]} ${command[1]}" >> $meta_path
     cols=$(( $cols + 1 ))
-done 
-awk '{if (NR == 2) {print $cols} else if (NR == 1) {print $0} else {print $0}}' meta_path
+done
