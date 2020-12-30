@@ -1,6 +1,8 @@
 echo "Welcome in your DBMS"
+
 Database="null"
 check=0
+
 #main
 while [ true ]
 
@@ -64,6 +66,21 @@ then
                 ./Drop_Table.sh $Database ${command[2]}
                 break
         fi
+fi
+if [ ${command[0]} = "Create" -a ${command[1]} = "Table" ]
+then
+        if [ $Database = "null" ]
+        then
+                echo "Error no database chosen!"
+                break
+        fi
+        ./is_Reserved.sh ${command[2]}
+        if [ $? -eq 0 ]
+        then
+                echo "Error table name is a reserved word"
+                break
+        fi
+        ./Create_table.sh $Database ${command[2]}
 fi
 if [ $check = 0 ]
 then
