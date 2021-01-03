@@ -47,8 +47,8 @@ do
         fi
         echo "Done!"
         temp="$meta_path.tmp"
+        touch $temp
         cat $meta_path > $temp
-        echo $cols
         cat $temp | awk -v cols=$cols '{if (NR == 2) {print cols} else {print $0}}' > $meta_path
         rm $temp
         exit 0;

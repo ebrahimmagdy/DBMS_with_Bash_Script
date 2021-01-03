@@ -25,20 +25,42 @@ then
         then
                 Database=${command[1]}
         fi       
-elif [ ${command[0]} = "Create" -a ${command[1]} = "Table" ]
+fi
+
+if [ ${#command[@]} = 3 -a ${command[0]} = "Create" ]
 then
+        if [ ${command[1]} != "Table" ]
+        then
+                echo "Error unknown command!"
+                continue
+        fi
         if [ $Database = "null" ]
         then
                 echo "Error no database chosen!"
-                break
+                continue
         fi
         ./is_Reserved.sh ${command[2]}
         if [ $? -eq 0 ]
         then
                 echo "Error table name is a reserved word"
-                break
+                continue
         fi
         ./Create_table.sh $Database ${command[2]}
+fi
+if [ ${#command[@]} = 3 -a ${command[0]} = "Update" ]
+then
+        if [ ${command[1]} != "Table" ]
+        then
+                echo "Error unknown command!"
+                continue
+        fi
+        if [ $Database = "null" ]
+        then
+                echo "Error no database chosen!"
+                continue
+        fi
+        #if table not exist
+        ./Update_Table.sh $Database ${command[2]}
 fi
 
 done
