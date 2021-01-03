@@ -1,7 +1,6 @@
 echo "Welcome in your DBMS"
 
 Database="null"
-check=0
 
 #main
 while [ true ]
@@ -12,59 +11,59 @@ printf "> "
 
 read -a command
 
-if [ ${command[0]} = "EXIT" -o ${command[0]} = "exit" -o ${command[0]} = "Exit" -o ${command[0]} = "e" ]
+if [ ${#command[@]} -eq "1" -a ${command[0]} = "Exit" ]
 then
 	echo "bye"
 	break
 fi
-if [ ${#command[@]} -eq "3" -a ${command[0]} = "Create" -o ${command[0]} = "create" -o ${command[0]} = "CREATE" ]
+if [ ${#command[@]} -eq "3" -a ${command[0]} = "Create" ]
 then
-        if [ ${command[1]} = "Database" -o ${command[1]} = "database" -o ${command[1]} = "DATABASE" ]
+        if [ ${command[1]} = "Database" ]
         then
                 ./Create_Database.sh ${command[2]}
-                break
+                continue
         fi
 fi	
-if [ ${command[0]} = "Use" -o ${command[0]} = "use" -o ${command[0]} = "USE" ]
+if [ ${command[0]} = "Use" ]
 then
         ./Use_Database.sh ${command[1]}
         if [ $? -eq 0 ]
         then
-                check=1
                 Database=${command[1]}
-                echo $Database database is used      
+                echo $Database database is used
+                continue      
         fi
 fi
-if [ ${#command[@]} -eq "3" -a ${command[0]} = "Drop" -o ${command[0]} = "drop" -o ${command[0]} = "DROP" ]
+if [ ${#command[@]} -eq "3" -a ${command[0]} = "Drop" ]
 then
-        if [ ${command[1]} = "Database" -o ${command[1]} = "database" -o ${command[1]} = "DATABASE" ]
+        if [ ${command[1]} = "Database" ]
         then
                 ./Drop_Database.sh ${command[2]}
-                break
+                continue
         fi
 fi       
-if [ ${#command[@]} -eq "2" -a ${command[0]} = "Show" -o ${command[0]} = "show" -o ${command[0]} = "SHOW" ]
+if [ ${#command[@]} -eq "2" -a ${command[0]} = "Show" ]
 then
-        if [ ${command[1]} = "Database" -o ${command[1]} = "database" -o ${command[1]} = "DATABASE" ]
+        if [ ${command[1]} = "Databases" ]
         then
                 ./Show_Database.sh
-                break
+                continue
         fi
 fi        
-if [ ${#command[@]} -eq "2" -a ${command[0]} = "Show" -o ${command[0]} = "show" -o ${command[0]} = "SHOW" ]
+if [ ${#command[@]} -eq "2" -a ${command[0]} = "Show" ]
 then
-        if [ ${command[1]} = "Tables" -o ${command[1]} = "tables" -o ${command[1]} != "TABLES" ]
+        if [ ${command[1]} = "Tables" ]
         then
                 ./Show_Tables.sh $Database
-                break
+                continue
         fi
 fi        
-if [ ${#command[@]} -eq "3" -a ${command[0]} = "Drop" -o ${command[0]} = "drop" -o ${command[0]} = "DROP" ]
+if [ ${#command[@]} -eq "3" -a ${command[0]} = "Drop" ]
 then
-        if [ ${command[1]} = "Table" -o ${command[1]} = "table" -o ${command[1]} = "TABLE" ]
+        if [ ${command[1]} = "Table" ]
         then
                 ./Drop_Table.sh $Database ${command[2]}
-                break
+                continue
         fi
 fi
 if [ ${#command[@]} = 3 -a ${command[0]} = "Create" ]
@@ -99,16 +98,51 @@ then
                 echo "Error no database chosen!"
                 continue
         fi
-        #if table not exist
         ./Update_Table.sh $Database ${command[2]}
 fi
 
-if [ $check = 0 ]
+if [ ${#command[@]} = 2 -a ${command[0]} = "Desc" ]
 then
-        echo "No valid input"
+        if [ $Database = "null" ]
+        then
+                echo "Error no database chosen!"
+                continue
+        fi
+        #if table not exist
+        ./Desc.sh $Database ${command[1]}
 fi
 
-check=0
+if [ ${#command[@]} = 3 -a ${command[0]} = "Delete" ]
+then
+        if [ ${command[1]} != "From" ]
+        then
+                echo "Error unknown command!"
+                continue
+        fi
+        if [ $Database = "null" ]
+        then
+                echo "Error no database chosen!"
+                continue
+        fi
+        ./Delete_From_Table.sh $Database ${command[2]} null null
+fi
+
+if [ ${#command[@]} = 7 -a ${command[0]} = "Delete" ]
+then
+        if [ ${command[1]} != "From" -o ${command[3]} != "Where" -o ${command[5]} != "=" ]
+        then
+                echo "Error unknown command!"
+                continue
+        fi
+        if [ $Database = "null" ]
+        then
+                echo "Error no database chosen!"
+                continue
+        fi
+        ./Delete_From_Table.sh $Database ${command[2]} ${command[4]} ${command[6]}
+fi
+
+echo "Error unknown command!"
 
 done
 

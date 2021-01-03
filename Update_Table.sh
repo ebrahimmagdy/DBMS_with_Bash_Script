@@ -6,7 +6,7 @@ error_fun(){
     exit 1
 }
 
-./is_TBL_Exist.sh $data_path
+./Is_TBL_Exist.sh $data_path
 if [ $? -eq 1 ]
 then
     echo "Error table doesn't exist!"
