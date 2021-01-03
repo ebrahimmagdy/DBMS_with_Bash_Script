@@ -2,11 +2,16 @@ data_path="data/$1/$2"
 meta_path="meta/$1/$2"
 
 error_fun(){
-    rm $var $columns $typs $data_tmp
+    rm $var $columns $typs $data_tmp 2> /dev/null
     exit 1
 }
 
-#if table not exist
+./is_TBL_Exist.sh $data_path
+if [ $? -eq 1 ]
+then
+    echo "Error table doesn't exist!"
+    error_fun
+fi
 condition_col=null
 condition_val=null
 
@@ -145,5 +150,5 @@ do
     i=$(($i + 1))
 done
 
-rm $data_tmp $var $columns $typs
+rm $data_tmp $var $columns $typs 2> /dev/null
 exit 0
