@@ -1,5 +1,5 @@
 var=$1
-    if [ -f $var ]
+    if [ -f $var 2> /dev/null ]
     then
         exit 0
     else

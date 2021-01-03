@@ -52,6 +52,11 @@ then
 fi        
 if [ ${#command[@]} -eq "2" -a ${command[0]} = "Show" ]
 then
+        if [ $Database = "null" ]
+        then
+                echo "Error no database chosen!"
+                continue
+        fi
         if [ ${command[1]} = "Tables" ]
         then
                 ./Show_Tables.sh $Database
@@ -60,6 +65,11 @@ then
 fi        
 if [ ${#command[@]} -eq "3" -a ${command[0]} = "Drop" ]
 then
+        if [ $Database = "null" ]
+        then
+                echo "Error no database chosen!"
+                continue
+        fi
         if [ ${command[1]} = "Table" ]
         then
                 ./Drop_Table.sh $Database ${command[2]}
@@ -68,11 +78,6 @@ then
 fi
 if [ ${#command[@]} = 3 -a ${command[0]} = "Create" ]
 then
-        if [ ${command[1]} != "Table" ]
-        then
-                echo "Error unknown command!"
-                continue
-        fi
         if [ $Database = "null" ]
         then
                 echo "Error no database chosen!"
@@ -84,21 +89,24 @@ then
                 echo "Error table name is a reserved word"
                 continue
         fi
-        ./Create_table.sh $Database ${command[2]}
+        if [ ${command[1]} = "Table" ]
+        then
+                ./Create_table.sh $Database ${command[2]}
+                continue
+        fi
 fi
 if [ ${#command[@]} = 3 -a ${command[0]} = "Update" ]
 then
-        if [ ${command[1]} != "Table" ]
-        then
-                echo "Error unknown command!"
-                continue
-        fi
         if [ $Database = "null" ]
         then
                 echo "Error no database chosen!"
                 continue
         fi
-        ./Update_Table.sh $Database ${command[2]}
+        if [ ${command[1]} = "Table" ]
+        then
+                ./Update_Table.sh $Database ${command[2]}
+                continue
+        fi
 fi
 
 if [ ${#command[@]} = 2 -a ${command[0]} = "Desc" ]
@@ -108,8 +116,8 @@ then
                 echo "Error no database chosen!"
                 continue
         fi
-        #if table not exist
         ./Desc.sh $Database ${command[1]}
+        continue
 fi
 
 if [ ${#command[@]} = 3 -a ${command[0]} = "Delete" ]
@@ -125,6 +133,7 @@ then
                 continue
         fi
         ./Delete_From_Table.sh $Database ${command[2]} null null
+        continue
 fi
 
 if [ ${#command[@]} = 7 -a ${command[0]} = "Delete" ]
@@ -140,6 +149,23 @@ then
                 continue
         fi
         ./Delete_From_Table.sh $Database ${command[2]} ${command[4]} ${command[6]}
+        continue
+fi
+
+if [ ${#command[@]} = 3 -a ${command[0]} = "Insert" ]
+then
+        if [ ${command[1]} != "Into" ]
+        then
+                echo "Error unknown command!"
+                continue
+        fi
+        if [ $Database = "null" ]
+        then
+                echo "Error no database chosen!"
+                continue
+        fi
+        ./Insert.sh $Database ${command[2]}
+        continue
 fi
 
 echo "Error unknown command!"
