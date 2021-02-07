@@ -57,7 +57,7 @@ Database management system made with bash script
 ```
     Create Table table_name    
 ```
-the output will be
+    - the output will be
 ```
     Enter the primary key name
     #
