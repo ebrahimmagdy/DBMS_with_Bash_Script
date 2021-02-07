@@ -11,7 +11,7 @@ Database management system made with bash script
 
 ## Notes
 - this language is case sensitive
-- reserved words in this language (used by this language) may be not available for users to use as a (database name, table name or column name)
+- reserved words in this language (used in this language) may be not available for users to use as a (database name, table name or column name)
 
 ## Getting Started
 
