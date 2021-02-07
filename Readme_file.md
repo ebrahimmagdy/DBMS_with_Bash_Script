@@ -62,7 +62,7 @@ Database management system made with bash script
     Enter the primary key name
     #
 ```
-enter the name of the primary key table
+    - enter the name of the primary key table
 ```
     Enter the primary key name
     # primary_name
