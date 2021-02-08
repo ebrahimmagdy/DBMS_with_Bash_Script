@@ -12,6 +12,7 @@ Database management system made with bash script
 ## Notes
 - this language is case sensitive
 - reserved words in this language (used in this language) may be not available for users to use as a (database name, table name or column name)
+- each database is a directory under directory data ex(data/your_database) and each file in this directory represents a table in this database
 
 ## Getting Started
 
