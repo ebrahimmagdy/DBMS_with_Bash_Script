@@ -33,7 +33,7 @@ for ty in `cat "$typs"`
 do
 
     col_types[${col_names[$i]}]=$ty
-    col_new_value[${col_names[$i]}]=1
+    col_new_value[${col_names[$i]}]=null
     i=$(($i + 1))
 done
 
@@ -80,13 +80,14 @@ printf "%d " "$next_pri" >> $data_path
 next_pri=$(($next_pri + 1))
 for str in ${col_names[@]}
 do
-    if [ ${col_new_value[$str]} != 1 ]
+    if [ ${col_new_value[$str]} != null ]
     then
         printf "%s " "${col_new_value[$str]}" >> $data_path
     else
         printf "null " >> $data_path
     fi
 done
+echo >> $data_path
 records=$(($records + 1))
 mete_temp="$meta_path".tmp""
 cat $meta_path > $mete_temp

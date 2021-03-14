@@ -35,7 +35,7 @@ for ty in `cat "$typs"`
 do
 
     col_types[${col_names[$i]}]=$ty
-    col_new_value[${col_names[$i]}]=1
+    col_new_value[${col_names[$i]}]=null
     i=$(($i + 1))
 done
 
@@ -138,7 +138,7 @@ do
         if [ $j -eq -1 ]
         then
             printf "%s " "$str" >> $data_path
-        elif [ ${col_new_value[$colName]} != "1" -a $update = "0" ]
+        elif [ ${col_new_value[$colName]} != null -a $update = "0" ]
         then
             printf "%s " "${col_new_value[$colName]}" >> $data_path
         else
